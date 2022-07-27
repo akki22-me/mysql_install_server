@@ -1,0 +1,80 @@
+mysql install steps ubuntu server 
+ 
+
+(1) sudo apt update
+
+(2) sudo apt install mysql-server
+
+(3) sudo systemctl start mysql.service
+
+(4) sudo mysql_secure_installation
+
+if step 4 was error then 
+
+(5) sudo mysql
+
+(6) ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password by 'mynewpassword';
+
+# set bind address for remote access=
+(7) sudo nano /etc/mysql/mysql.conf.d/mysqld.cnf
+   port 3306
+
+mysql -u root -p
+CREATE DATABASE akshay;
+
+
+mysql> CREATE USER 'test_user'@'localhost' IDENTIFIED WITH mysql_native_password BY 'Aa@123456';
+mysql> GRANT ALL PRIVILEGES ON akshay.* TO 'test_user'@'localhost';
+mysql> FLUSH PRIVILEGES;
+mysql> QUIT;
+
+# Get All Users Of mysql=
+SELECT user FROM mysql.user;
+
+
+sudo ufw allow from ant to any port 3306 proto tcp
+
+sudo ufw allow from 206.189.139.124 to any port 3306
+
+apt install net-tools
+
+netstat -ntulp
+
+
+mysql -u user -h 206.189.139.124 -p
+
+mysql> CREATE USER 'test'@'206.189.139.124' IDENTIFIED WITH mysql_native_password BY 'Aa@123456';
+mysql> GRANT ALL PRIVILEGES ON akshay.* TO 'test'@'206.189.139.124';
+mysql> FLUSH PRIVILEGES;
+mysql> QUIT;
+
+
+
+
+rsync -aP --exclude .git --exclude .zip  ./ root@206.189.139.124:~/mysqlnode
+
+
+
+
+
+create table users(
+   user_id INT NOT NULL AUTO_INCREMENT,
+   user_name TEXT,
+   user_email VARCHAR(255) NOT NULL,
+   user_pass VARCHAR(255) NOT NULL,
+   user_kyc  INT(11),
+   user_balance int(11),
+   Address TEXT,
+   Address2 TEXT,
+   City TEXT,
+   livingState TEXT,
+   Zip TEXT,
+   user_reg timestamp,
+   PRIMARY KEY ( user_id )
+);
+
+
+
+
+
+
