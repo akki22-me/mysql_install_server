@@ -109,7 +109,6 @@ db.createUser(
 
 
 
-//  mongoose.connect('mongodb+srv://usermongodb:A123456789A@cluster0-8ggwz.mongodb.net/test?retryWrites=true&w=majority',{useNewUrlParser:true});
 
 mongoose.connect('mongodb://akki:AdminSammySecurePassword@206.189.139.124:27017/coins?authSource=admin', {useNewUrlParser: true});
 
@@ -126,4 +125,3 @@ const MONGO_DB = 'coins';
 
 
 
-mongoose.connect('mongodb+srv://usermongodb:A123456789A@cluster0-8ggwz.mongodb.net/test?retryWrites=true&w=majority',{useNewUrlParser:true});
