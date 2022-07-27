@@ -1,0 +1,41 @@
+
+C:\Users\hp\AppData\Local\Android\Sdk
+
+C:\Users\hp\AppData\Local\Android\Sdk\platform-tools
+
+sudo apt update
+sudo apt install nginx
+sudo ufw app list
+sudo ufw allow 'Nginx HTTP'
+sudo ufw status
+systemctl status nginx
+sudo systemctl stop nginx
+sudo systemctl start nginx
+sudo systemctl restart nginx
+sudo systemctl reload nginx
+sudo systemctl disable nginx
+sudo systemctl enable nginx
+
+server {
+...
+    location / {
+        proxy_pass http://localhost:3000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+    }
+...
+}
+
+
+code push command linux
+
+rsync -aP --exclude .git --exclude .zip --exclude node_modules ./ root@158.247.212.54:~/local-bitcoins-be
+
+8Wu(8!x_,MPd?)G9
+
+ssh root@158.247.212.54
+
+scp -r root@158.247.212.54:~/local-bitcoins-be/mydb.sqlite .   
