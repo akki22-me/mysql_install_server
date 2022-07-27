@@ -1,0 +1,129 @@
+mongodb install commond ubuntu 20.4
+
+Link 1 = https://www.digitalocean.com/community/tutorials/how-to-install-mongodb-on-ubuntu-20-04
+
+link 2= https://www.digitalocean.com/community/tutorials/how-to-install-and-secure-mongodb-on-ubuntu-16-04#step-1-%E2%80%94-enabling-ufw
+
+link 3 = https://www.digitalocean.com/community/tutorials/how-to-integrate-mongodb-with-your-node-application
+
+(1) ufw app list
+
+(2) ufw allow OpenSSH
+
+(3) ufw enable
+
+(4) curl -fsSL https://www.mongodb.org/static/pgp/server-4.4.asc | sudo apt-key add -
+
+(5) apt-key list
+
+(6) echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/4.4 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.4.list
+
+
+(7) sudo apt update
+
+(8) sudo apt install mongodb-org
+
+(9) sudo systemctl start mongod.service
+
+(10) sudo systemctl status mongod
+
+(11) sudo systemctl enable mongod
+
+(12) sudo systemctl status mongod  
+
+(13) sudo systemctl stop mongod 
+
+(14) sudo systemctl start mongod 
+
+(15) sudo systemctl restart mongod
+
+(16) sudo systemctl disable mongod
+
+(17) sudo systemctl enable mongod
+
+(18) mongo
+
+(19) use admin
+db.createUser(
+  {
+    user: "AdminSammy",
+    pwd: "AdminSammy'sSecurePassword",
+    roles: [ { role: "userAdminAnyDatabase", db: "admin" } ]
+  }
+)
+
+(20) sudo nano /etc/mongod.conf
+
+(21) security:
+  authorization: "enabled"   
+
+(22) sudo systemctl restart mongod
+
+(23) sudo systemctl status mongod 
+
+(24) mongo 
+
+(25) show dbs
+
+(27) mongo -u AdminSammy -p --authenticationDatabase admin
+
+(28) show dbs
+
+(29) sudo ufw allow from client_ip_address to any port 27017   [ client ip =  server ip address ]
+
+(30) sudo nano /etc/mongod.conf
+
+(31)  . . .
+net:
+  port: 27017
+  bindIp: 127.0.0.1,IP_of_MongoHost
+ . . .
+
+(32) sudo systemctl restart mongod
+
+(33) sudo systemctl status mongod
+
+(34) mongo -u AdminSammy -p --authenticationDatabase admin --host IP_address_of_MongoHost
+
+
+
+db.createUser(
+  {
+    user: "akshay",
+    pwd: "AdminSammy'sSecurePassword",
+    roles: [ { role: "readWrite", db: "coins" } ]
+  }
+)
+
+(34) mongo -u akshay -p --authenticationDatabase coins --host 206.189.139.124
+
+
+db.createUser(
+  {
+    user: "akki",
+    pwd: "AdminSammySecurePassword",
+    roles: [ { role: "readWrite", db: "coins" } ]
+  }
+)
+
+
+
+
+//  mongoose.connect('mongodb+srv://usermongodb:A123456789A@cluster0-8ggwz.mongodb.net/test?retryWrites=true&w=majority',{useNewUrlParser:true});
+
+mongoose.connect('mongodb://akki:AdminSammySecurePassword@206.189.139.124:27017/coins?authSource=admin', {useNewUrlParser: true});
+
+
+
+const MONGO_USERNAME = 'akki';
+const MONGO_PASSWORD = 'AdminSammySecurePassword';
+const MONGO_HOSTNAME = '206.189.139.124';
+const MONGO_PORT = '27017';
+const MONGO_DB = 'coins';
+
+ const url = `mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_HOSTNAME}:${MONGO_PORT}/${MONGO_DB}?authSource=admin`;
+ mongoose.connect(url, {useNewUrlParser: true});
+
+
+
+mongoose.connect('mongodb+srv://usermongodb:A123456789A@cluster0-8ggwz.mongodb.net/test?retryWrites=true&w=majority',{useNewUrlParser:true});
