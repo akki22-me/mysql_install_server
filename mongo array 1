@@ -1,0 +1,109 @@
+var express = require('express');
+var router = express.Router();
+var arraymodel = require('../model/arrayop');
+
+
+router.post('/addarray',async(req,res)=>{
+
+    try {
+        
+        var firstName = req.body.firstName;
+        var lastName = req.body.lastName;
+        var email = req.body.email;
+        var salary = req.body.salary;
+        var skills = req.body.skills;
+
+        var adddetail = new arraymodel({
+            firstName :firstName,
+            lastName:lastName,
+            email:email,
+            salary:salary,
+            skills:JSON.parse(skills)
+        });
+
+        const enter =await adddetail.save();
+
+        if(enter){
+            res.status(200).json({
+              message:"Array Addes",
+              status:true
+            });
+        }
+         else{
+
+            res.status(200).json({
+                message:"Array Not  Addes",
+                status:false
+              });
+         }
+
+    } catch (error) {
+        res.status(400).json({
+        message:"Error",
+        err:error
+        });
+    }
+
+});
+
+
+//updaate many
+
+router.post('/updatemany',async(req,res)=>{
+    
+    // var up = arraymodel.updateMany(
+    //     {skills:"MongoDB"},
+    //     {$set:{"skills.$":"Public Speaking"}})  // update where 
+
+    // var up = arraymodel.updateMany(
+    //     {}, 
+    //     { $set: {"skills.$[element]":"node js"}},
+    //     { arrayFilters: [{ element: "Tax" }]}
+    // )
+
+
+        //  var up = arraymodel.updateMany(
+        //     {$push:{"skills":"mysql"}}    // add element
+        //  )
+
+
+            // var up = arraymodel.updateMany(
+            //     {$push:{"skills":{$each:["Sports","Acting"]}}} // adds "Sports" and "Acting" to all arrays
+
+            //     )
+
+            // var up = arraymodel.updateMany(
+            //     { $addToSet: {"skills":"GST"} } // adds "GST"to all arrays if not exist
+
+            //     )
+
+            // var up = arraymodel.updateMany(
+            //     {$pop:{"skills":1}} // removes the last element
+
+            //     )
+
+            // var up = arraymodel.updateMany(
+            //     {$pop:{"skills":-1}} //removes the first element
+
+            //     )
+
+                var up = arraymodel.updateMany(
+                  
+                    { $pullAll: { "skills": ['Acting','Sports'] }} // multiple delete
+
+                    )
+
+
+        var change = await up.exec();
+
+        if(change){
+        res.send('update')
+        }
+        else{
+         res.send('not update')
+        }
+
+});
+
+module.exports = router;
+
