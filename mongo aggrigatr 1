@@ -1,0 +1,132 @@
+var express = require('express');
+var router = express.Router();
+var mongooer = require('../model/m_operations');
+
+
+//Insert data;
+router.post('/insertdata',async(req,res)=>{
+
+var first=req.body.first;
+var second = req.body.second;
+
+var add = new mongooer({
+    firstnumber:first,
+    secondnumber:second
+});
+
+const addrecord = await add.save();
+
+if(addrecord){
+    res.status(200).json({
+    message:'Insert recored',
+    status:true
+    });
+}else{
+    res.status(200).json({
+        message:'Not Insert recored',
+        status:false
+        });
+}
+
+});
+
+
+//max value
+router.get('/maxvalue',async(req,res)=>{
+const maxvalue=mongooer.find({}).sort({secondnumber: -1}).limit(1)
+var finalvalue = await maxvalue.exec();
+
+if(finalvalue){
+res.status(200).json({
+  message:'max value',
+  data:finalvalue
+});
+}
+else{
+    res.status(200).json({
+        message:'max value not found',
+      });
+}
+
+});
+
+//min value 
+router.get('/minvalue',async(req,res)=>{
+    const minvalue=mongooer.find({}).sort({secondnumber: 1}).limit(1)
+    var finalvalue = await minvalue.exec();
+    
+    if(finalvalue){
+    res.status(200).json({
+      message:'min value',
+      data:finalvalue
+    });
+    }
+    else{
+        res.status(200).json({
+            message:'min value not found',
+          });
+    }
+    
+    });
+
+    //avg number
+    router.get('/getavgvalue',async(req,res)=>{
+      var avgvalue =mongooer.aggregate([{$group:{"_id":"_id",AverageValue: { $avg: "$firstnumber" }}}])
+
+      var finalvalue=await avgvalue.exec();
+
+      if(finalvalue){
+        res.status(200).json({
+          message:'avg value',
+          data:finalvalue
+        });
+        }
+        else{
+            res.status(200).json({
+                message:'avg value not found',
+              });
+        }
+
+
+    });
+
+    //count 
+    router.get('/countvakue',async(req,res)=>{
+
+        var countvalue =  mongooer.find({firstnumber:4}).countDocuments()
+
+    var finalvalue = await countvalue.exec();
+    if(finalvalue){
+        res.status(200).json({
+            message:'count value',
+            data:finalvalue
+          });
+    }
+    else{
+        res.status(200).json({
+            message:'No count value',
+          });
+    }
+    });
+
+    //sum value 
+    router.get('/sumvakue',async(req,res)=>{
+
+      var sumvalue =mongooer.aggregate([{$group:{"_id":"_id",sumget:{$sum:'$firstnumber'}}}]);
+
+  var finalvalue = await sumvalue.exec();
+  if(finalvalue){
+      res.status(200).json({
+          message:'sum value',
+          data:finalvalue
+        });
+  }
+  else{
+      res.status(200).json({
+          message:'No sum value',
+        });
+  }
+  });
+
+
+module.exports = router;      
