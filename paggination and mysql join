@@ -1,0 +1,48 @@
+router.get('/all_offer/:page?',async(req,res)=>{
+       try {
+        var perpage = 3;
+        var page = req.params.page || 1;
+      var offset =(page - 1) * perpage ;
+      
+const sql1="Select users.user_name,offers.offerid,offers.makerid,offers.offertype,offers.minlimit,offers.maxlimit,offers.offertitle,offers.offerdes,offers.offercreatedate from offers inner join users on offers.makerid=users.user_id order by offers.offerid desc limit  "+perpage+" offset  "+offset+""
+      
+   //   const sql1= "select * from offers order by offerid desc limit  "+perpage+" offset  "+offset+""
+      
+      const sqlcount="select count(*) as countofferlist from offers ";
+
+
+      const row = await query(sql1);
+      const row2 = await query(sqlcount);
+
+      var countpage=row2[0].countofferlist;
+console.log(countpage)
+var pages = Math.ceil(countpage / perpage);
+console.log(pages)
+
+if(row && row2){
+    if(row.length >0){
+res.status(200).json({
+   message:'offer List Is ',
+   status:true,
+   data:row,
+   page:pages,
+   currentpage:page,
+   totalcount:countpage
+});
+    }
+    else{
+        res.status(200).json({
+            message:'offer List Is ',
+           // data:row,
+           status:false,
+            page:pages,
+            currentpage:page
+         });
+    }
+}
+
+       } catch (error) {
+           console.log(error);
+           res.json(error)
+       }
+});
