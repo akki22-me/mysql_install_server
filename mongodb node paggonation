@@ -1,0 +1,50 @@
+//get trainee post
+router.get('/traineeownpost/:traineuid?/:page?',async(req,res)=>{
+    try {
+
+        const traine_uid= req.params.traineuid;
+       
+        const page = req.params.page || 1;
+         const perpage = 2;
+
+
+        if(!traine_uid){
+            return res.json({
+            message:'Trainee Uid Not Found',
+            status:false
+            });
+        }
+        var traineid =  post_model.find({traine_uid:traine_uid}).skip((perpage*page)-perpage).limit(perpage).sort({_id:-1});
+        var countpage =post_model.countDocuments({traine_uid:traine_uid});
+        var pagecount =await countpage.exec();
+        const allpost = await traineid.exec();
+
+        const current=page;
+        const pages=Math.ceil(pagecount/perpage);
+        const count = pagecount;
+
+        if(allpost.length > 0){
+            res.status(200).json({
+            message:'Trainee Own Post',
+            status:true,
+            current:current,
+            pages:pages,
+            data:allpost,
+            count:count
+            });
+        }
+        else
+        {
+            res.status(200).json({
+                message:'Trainee Own Post',
+                status:false
+                }); 
+        }
+    } catch (error) {
+        console.log(error)
+        res.status(400).json({
+        message:'error',
+        err:error
+        });
+    }
+});
