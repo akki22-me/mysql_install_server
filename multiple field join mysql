@@ -1,0 +1,1 @@
+var sql1="select orders.*, u3.user_name as taker, u4.user_name as maker from orders left join users as u3 on orders.taker_id = u3.user_id left join users as u4 on orders.maker_id = u4.user_id  where orders.cancel_order='"+cancel+"' and (orders.maker_id='"+uid+"' or orders.taker_id='"+uid+"')  order by orders.order_id desc limit "+perpage+" offset  "+offset+""
